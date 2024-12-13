@@ -1,3 +1,25 @@
 spring:
   application:
     name: HOPE
+  datasource:
+    url: ${DATABASE_URL:jdbc:mariadb://localhost:3307/HOPE}
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:}
+    driver-class-name: org.mariadb.jdbc.Driver
+    jpa:
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+
+
+hope:
+  frontEndDomain: ${FRONT_END_DOMAIN:http://localhost:3000}
+  security:
+    accessTokenName: hope_accessToken
+    refreshTokenName: hope_refreshToken
+    accessTokenSecret: ${JWT_ACCESS_SECRET}
+    refreshTokenSecret: ${JWT_REFRESH_SECRET}
+    accessTokenExpiration: ${ACCESS_TOKEN_EXPIRATION:15} #minutes
+    refreshTokenExpiration: ${REFRESH_TOKEN_EXPIRATION:30} #days
+    cookies:
+      secure: ${SECURE_COOKIES:false}
