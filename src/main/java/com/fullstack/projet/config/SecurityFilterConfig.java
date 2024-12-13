@@ -1,6 +1,5 @@
 package com.fullstack.projet.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityFilterConfig {
@@ -26,6 +24,11 @@ public class SecurityFilterConfig {
     private final AuthenticationProvider authenticationProvider;
     @Value("${hope.frontEndDomain}")
     private String allowedOrigin;
+
+    public SecurityFilterConfig(JwtAuthenticationFilter jwtAuthFilter, AuthenticationProvider authenticationProvider) {
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.authenticationProvider = authenticationProvider;
+    }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
