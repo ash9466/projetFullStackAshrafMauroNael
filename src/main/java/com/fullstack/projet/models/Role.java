@@ -1,4 +1,4 @@
-package com.fullstack.projet.models.user;
+package com.fullstack.projet.models;
 
 public enum Role {
 
