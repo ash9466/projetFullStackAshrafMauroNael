@@ -31,8 +31,8 @@ CREATE TABLE feedback (
 
 INSERT INTO user (first_name, last_name, email, password, role) VALUES
 ('Admin', 'User', 'admin@hope.com', 'password', 'ADMIN'),
-('John', 'Doe', 'john.doe@example.com', 'password', 'USER'),
-('Jane', 'Smith', 'jane.smith@example.com', 'password', 'USER');
+('John', 'Doe', 'john.doe@example.com', 'password', 'TEACHER'),
+('Jane', 'Smith', 'jane.smith@example.com', 'password', 'STUDENT');
 
 INSERT INTO tool (name, domain, description, added_by_id) VALUES
 ('Spring Boot', 'Backend', 'Framework Java pour construire des applications', 1),
