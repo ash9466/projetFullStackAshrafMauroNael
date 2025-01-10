@@ -17,21 +17,49 @@ import java.util.List;
 @Data
 @Builder
 @Entity(name = "user")
-public class User implements UserDetails {
+public class User extends BaseModel implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
+
     private String lastName;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    public User(String firstName, String lastName, String email, String password, Role role) {
+        validateName(firstName);
+        validateName(lastName);
+        validateEmail(email);
+        validatePassword(password);
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public void update(String firstName, String lastName, String email, String password) {
+        validateName(firstName);
+        validateName(lastName);
+        validateEmail(email);
+        validatePassword(password);
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
