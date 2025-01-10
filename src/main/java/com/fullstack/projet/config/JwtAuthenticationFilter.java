@@ -1,6 +1,6 @@
 package com.fullstack.projet.config;
 
-import com.fullstack.projet.models.user.User;
+import com.fullstack.projet.models.User;
 import com.fullstack.projet.services.security.IJwtService;
 import com.fullstack.projet.services.security.TokenType;
 import com.fullstack.projet.services.user.IUserService;
