@@ -1,18 +1,12 @@
 package com.fullstack.projet.models;
 
 import com.fullstack.projet.exceptions.ValidationException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Data
-@Entity
-public class Feedback extends BaseModel {
+@Entity(name = "feedback")
+public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

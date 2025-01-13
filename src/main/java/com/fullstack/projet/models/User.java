@@ -17,7 +17,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity(name = "user")
-public class User extends BaseModel implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +37,6 @@ public class User extends BaseModel implements UserDetails {
     private Role role;
 
     public User(String firstName, String lastName, String email, String password, Role role) {
-        validateName(firstName);
-        validateName(lastName);
-        validateEmail(email);
-        validatePassword(password);
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,10 +46,6 @@ public class User extends BaseModel implements UserDetails {
     }
 
     public void update(String firstName, String lastName, String email, String password) {
-        validateName(firstName);
-        validateName(lastName);
-        validateEmail(email);
-        validatePassword(password);
 
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,5 +86,41 @@ public class User extends BaseModel implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

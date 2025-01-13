@@ -2,14 +2,9 @@ package com.fullstack.projet.models;
 
 import com.fullstack.projet.exceptions.ValidationException;
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.data.annotation.Id;
 
-import java.util.List;
-
-@Data
-@Entity
-public class Tool extends BaseModel {
+@Entity(name = "tool")
+public class Tool {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +21,8 @@ public class Tool extends BaseModel {
     private User addedBy;
 
     public Tool(String name, String domain, String description, User addedBy) {
-        validateName(name);
-        validateName(domain);
+//        validateName(name);
+//        validateName(domain);
         if (description == null || description.isBlank()) {
             throw new ValidationException("Description cannot be null or empty.");
         }
