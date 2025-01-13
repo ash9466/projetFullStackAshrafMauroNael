@@ -25,13 +25,6 @@ public class FeedbackService implements IFeedbackService {
     }
 
     @Override
-    public List<Feedback> findByToolId(Long toolId) {
-        return feedbackRepository.findAll().stream()
-                .filter(f -> f.getTool().getId().equals(toolId))
-                .toList();
-    }
-
-    @Override
     public void deleteById(Long id) {
         feedbackRepository.deleteById(id);
     }

@@ -18,9 +18,4 @@ public class FeedbackController {
     public Feedback createFeedback(@RequestBody Feedback feedback) {
         return feedbackService.save(feedback);
     }
-
-    @GetMapping("/tool/{toolId}")
-    public List<Feedback> getFeedbacksByTool(@PathVariable Long toolId) {
-        return feedbackService.findByToolId(toolId);
-    }
 }
