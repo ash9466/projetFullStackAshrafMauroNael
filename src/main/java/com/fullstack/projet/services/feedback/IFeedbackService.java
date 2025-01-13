@@ -8,6 +8,5 @@ import java.util.Optional;
 public interface IFeedbackService {
     Feedback save(Feedback feedback);
     Optional<Feedback> findById(Long id);
-    List<Feedback> findByToolId(Long toolId);
     void deleteById(Long id);
 }
