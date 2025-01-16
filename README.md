@@ -4,14 +4,14 @@ Projet développement full stack - Spring Boot React - Nael, Mauro, Ashraf
 
 Lien vers les tests postman : https://www.postman.com/onsite-ote/workspace/back
 
-##Description
+## Description
 
-###Cette application est une solution Full-Stack utilisant Spring Boot pour le back-end et React pour le front-end. Voici les principales fonctionnalités de la partie back-end :
+### Cette application est une solution Full-Stack utilisant Spring Boot pour le back-end et React pour le front-end. Voici les principales fonctionnalités de la partie back-end :
 Gestion des événements d'authentification (connexion, inscription, ..).
 Communication avec la base de données pour la gestion des données persistantes.
 Exposition d'une API REST accessible depuis la partie front-end.
 
-###Prérequis
+### Prérequis
 
 Maven pour la gestion des dépendances et le build du projet
 
