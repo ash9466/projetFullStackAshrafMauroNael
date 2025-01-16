@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=jdbc:mariadb://db:3306/HOPE
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=root_password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - FRONT_END_DOMAIN=http://localhost:3000
+      - JWT_ACCESS_SECRET=d22692762c522fb42af94cb016913e26ded952cd44b0eac6d73a325bebddcb34fe83ff831235d236c0316ee0ee7e173b226b211e88f109b43824c38a982b3f0e
+      - JWT_REFRESH_SECRET=abbeabe0a415ef79380ad64376999c856b8f9774f4c4bcc3b997bddbdb915d8df832f604db916443c664be0ea206ebbcc39aa79f64ebbcc769910cb4fb30e350
+      - ACCESS_TOKEN_EXPIRATION=15
+      - REFRESH_TOKEN_EXPIRATION=30
+      - SECURE_COOKIES=false
+
+  db:
+    image: mariadb:latest
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: HOPE
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sqll
+
+volumes:
+  db_data:
