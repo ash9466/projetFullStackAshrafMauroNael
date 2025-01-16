@@ -1,6 +1,6 @@
 package com.fullstack.projet.services.tool;
 
-import com.fullstack.projet.models.Tool;
+import com.fullstack.projet.models.tool.Tool;
 
 import java.util.List;
 import java.util.Optional;

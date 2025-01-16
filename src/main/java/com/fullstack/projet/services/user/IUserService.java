@@ -9,4 +9,5 @@ public interface IUserService extends UserDetailsService {
     Optional<User> findById(Long id);
     User save(User user);
     Optional<User> findByEmail(String email);
+    void deleteById(Long userId);
 }

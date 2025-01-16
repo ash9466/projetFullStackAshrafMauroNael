@@ -27,7 +27,6 @@ public class AuthenticationController {
 
     private final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
 
-
     private final static String REFRESH_TOKEN_PROPERTY = "hope_refreshToken";
 
     private final static String ACCESS_TOKEN_PROPERTY = "hope_accessToken";
@@ -111,15 +110,15 @@ public class AuthenticationController {
                 ResponseEntity.ok()
                         .body(new AuthenticationResponse(false));
 
-            Boolean result = authenticationService.isTokenValid(accessToken, TokenType.ACCESS);
+            boolean isTokenValid = authenticationService.isTokenValid(accessToken, TokenType.ACCESS);
 
-            if(result) {
+            if(isTokenValid) {
                 String userEmail = authenticationService.getEmailFromToken(accessToken, TokenType.ACCESS);
                 return ResponseEntity.ok(new AuthenticationResponse(true, authenticationService.getUserBasicInfo(userEmail)));
             }
 
             return ResponseEntity.ok()
-                    .body(new AuthenticationResponse(result));
+                    .body(new AuthenticationResponse(false));
         } catch (Exception e) {
             return ResponseEntity.ok()
                     .body(new AuthenticationResponse(false));

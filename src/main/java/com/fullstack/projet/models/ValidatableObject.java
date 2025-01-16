@@ -1,5 +1,7 @@
 package com.fullstack.projet.models;
 
-public interface ValidatableObject {
+import java.io.Serializable;
+
+public interface ValidatableObject extends Serializable {
     void validate();
 }

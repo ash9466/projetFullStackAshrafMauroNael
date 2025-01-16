@@ -25,21 +25,17 @@ public class AuthenticationService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationManager authenticationManager;
-
     private final JwtService jwtService;
 
     public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
 
 
     @Transactional
     public AuthenticationResult register(@NonNull User newUser) {
-
         newUser.validate();
 
         if(userRepository.existsByEmail(newUser.getEmail())){

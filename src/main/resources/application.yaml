@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
 hope:
   frontEndDomain: ${FRONT_END_DOMAIN:http://localhost:3000}

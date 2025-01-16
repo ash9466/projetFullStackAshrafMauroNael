@@ -1,14 +1,14 @@
-package com.fullstack.projet.models;
+package com.fullstack.projet.models.feedback;
 
 import com.fullstack.projet.exceptions.ValidationException;
+import com.fullstack.projet.models.ValidatableObject;
+import com.fullstack.projet.models.tool.Tool;
 import com.fullstack.projet.models.user.User;
 import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
 @Entity(name = "feedback")
-public class Feedback implements ValidatableObject{
+public class Feedback implements ValidatableObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class Feedback implements ValidatableObject{
     private Tool tool;
 
     @ManyToOne
-    private User user;
+    private User creator;
 
     public Feedback(){}
 
     public Feedback(String comment, Tool tool, User user) {
         this.comment = comment;
         this.tool = tool;
-        this.user = user;
+        this.creator = user;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Feedback implements ValidatableObject{
         if (tool == null) {
             throw new ValidationException("Tool cannot be null.");
         }
-        if (user == null) {
+        if (creator == null) {
             throw new ValidationException("User cannot be null.");
         }
     }
@@ -68,11 +68,11 @@ public class Feedback implements ValidatableObject{
         this.tool = tool;
     }
 
-    public User getUser() {
-        return user;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreator(User user) {
+        this.creator = user;
     }
 }
