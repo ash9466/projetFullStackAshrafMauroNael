@@ -2,7 +2,7 @@ spring:
   application:
     name: HOPE
   datasource:
-    url: ${DATABASE_URL:jdbc:mariadb://localhost:3307/HOPE}
+    url: ${DATABASE_URL:jdbc:mariadb://localhost:3306/hope}
     username: ${DATABASE_USERNAME:root}
     password: ${DATABASE_PASSWORD:}
     driver-class-name: org.mariadb.jdbc.Driver
@@ -17,8 +17,8 @@ hope:
   security:
     accessTokenName: hope_accessToken
     refreshTokenName: hope_refreshToken
-    accessTokenSecret: ${JWT_ACCESS_SECRET}
-    refreshTokenSecret: ${JWT_REFRESH_SECRET}
+    accessTokenSecret: ${JWT_ACCESS_SECRET:d22692762c522fb42af94cb016913e26ded952cd44b0eac6d73a325bebddcb34fe83ff831235d236c0316ee0ee7e173b226b211e88f109b43824c38a982b3f0e}
+    refreshTokenSecret: ${JWT_REFRESH_SECRET:abbeabe0a415ef79380ad64376999c856b8f9774f4c4bcc3b997bddbdb915d8df832f604db916443c664be0ea206ebbcc39aa79f64ebbcc769910cb4fb30e350}
     accessTokenExpiration: ${ACCESS_TOKEN_EXPIRATION:15} #minutes
     refreshTokenExpiration: ${REFRESH_TOKEN_EXPIRATION:30} #days
     cookies:

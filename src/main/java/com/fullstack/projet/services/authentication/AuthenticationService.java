@@ -41,7 +41,6 @@ public class AuthenticationService {
     public AuthenticationResult register(@NonNull User newUser) {
 
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
         userRepository.save(newUser);
         
         return setJWTAndGetAuthResponse(newUser.getEmail());
@@ -51,6 +50,8 @@ public class AuthenticationService {
 
         Optional<User> user = userRepository.findByEmail(userLogIn.getEmail());
         if (user.isPresent()) {
+            System.out.println(user.get().getEmail());
+            System.out.println(user.get().getPassword());
             try {
                 Authentication authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(user.get().getEmail(), user.get().getPassword())

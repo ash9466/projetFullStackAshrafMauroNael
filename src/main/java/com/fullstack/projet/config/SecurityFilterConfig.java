@@ -22,12 +22,14 @@ public class SecurityFilterConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    @Value("${hope.frontEndDomain}")
-    private String allowedOrigin;
+    private final String allowedOrigin;
 
-    public SecurityFilterConfig(JwtAuthenticationFilter jwtAuthFilter, AuthenticationProvider authenticationProvider) {
+    public SecurityFilterConfig(JwtAuthenticationFilter jwtAuthFilter,
+                                 AuthenticationProvider authenticationProvider,
+                                 @Value("${hope.frontEndDomain}") String allowedOrigin) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.authenticationProvider = authenticationProvider;
+        this.allowedOrigin = allowedOrigin;
     }
 
     @Bean
