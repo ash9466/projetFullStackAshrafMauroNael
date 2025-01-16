@@ -2,15 +2,13 @@ spring:
   application:
     name: HOPE
   datasource:
-    url: ${DATABASE_URL:jdbc:mariadb://localhost:3306/hope}
+    url: ${DATABASE_URL:jdbc:mariadb://localhost:3307/HOPE}
     username: ${DATABASE_USERNAME:root}
     password: ${DATABASE_PASSWORD:}
     driver-class-name: org.mariadb.jdbc.Driver
-    jpa:
-      hibernate:
-        ddl-auto: update
-      show-sql: true
-
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 hope:
   frontEndDomain: ${FRONT_END_DOMAIN:http://localhost:3000}

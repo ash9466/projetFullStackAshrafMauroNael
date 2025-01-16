@@ -1,7 +1,9 @@
 package com.fullstack.projet.services.authentication;
 
-import com.fullstack.projet.models.User;
+import com.fullstack.projet.exceptions.ValidationException;
 import com.fullstack.projet.models.authentication.AuthenticationResult;
+import com.fullstack.projet.models.user.User;
+import com.fullstack.projet.models.user.UserProjection;
 import com.fullstack.projet.repositories.UserRepository;
 import com.fullstack.projet.services.UserUtils;
 import com.fullstack.projet.services.security.JwtService;
@@ -10,8 +12,6 @@ import io.micrometer.common.util.StringUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +40,12 @@ public class AuthenticationService {
     @Transactional
     public AuthenticationResult register(@NonNull User newUser) {
 
+        newUser.validate();
+
+        if(userRepository.existsByEmail(newUser.getEmail())){
+            throw new ValidationException("Email is already used.");
+        }
+
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(newUser);
         
@@ -50,13 +56,9 @@ public class AuthenticationService {
 
         Optional<User> user = userRepository.findByEmail(userLogIn.getEmail());
         if (user.isPresent()) {
-            System.out.println(user.get().getEmail());
-            System.out.println(user.get().getPassword());
             try {
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(user.get().getEmail(), user.get().getPassword())
-                );
-                if (authentication.isAuthenticated()) {
+                boolean isAuthenticated = passwordEncoder.matches(userLogIn.getPassword(), user.get().getPassword());
+                if (isAuthenticated) {
                     return setJWTAndGetAuthResponse(user.get().getEmail());
                 }
             } catch (BadCredentialsException e) {
@@ -84,8 +86,16 @@ public class AuthenticationService {
         return new AuthenticationResult(jwtAccessToken, jwtRefreshToken);
     }
 
+    public UserProjection getUserBasicInfo(String email){
+        return userRepository.findUserByEmail(email);
+    }
+
     public boolean isTokenValid(String token, TokenType tokenType) {
         return jwtService.tokenIsValid(token, tokenType);
+    }
+
+    public String getEmailFromToken(String token, TokenType tokenType) {
+        return jwtService.extractUsername(token, tokenType);
     }
 
 

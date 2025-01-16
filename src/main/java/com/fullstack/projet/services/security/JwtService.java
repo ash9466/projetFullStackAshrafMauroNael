@@ -47,8 +47,8 @@ public class JwtService implements IJwtService {
     }
 
     @Override
-    public Long extractId(String jwtToken, TokenType tokenType) {
-        return Long.valueOf(extractClaim(jwtToken, Claims::getSubject, tokenType));
+    public String extractUsername(String jwtToken, TokenType tokenType) {
+        return extractClaim(jwtToken, Claims::getSubject, tokenType);
     }
 
     @Override

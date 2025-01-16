@@ -2,9 +2,10 @@ package com.fullstack.projet.controllers.authentication;
 
 import com.fullstack.projet.controllers.ErrorHandlingUtils;
 import com.fullstack.projet.exceptions.ErrorBody;
-import com.fullstack.projet.models.User;
+import com.fullstack.projet.exceptions.ValidationException;
 import com.fullstack.projet.models.authentication.AuthenticationResponse;
 import com.fullstack.projet.models.authentication.AuthenticationResult;
+import com.fullstack.projet.models.user.User;
 import com.fullstack.projet.services.authentication.AuthenticationService;
 import com.fullstack.projet.services.security.TokenType;
 import io.micrometer.common.util.StringUtils;
@@ -26,9 +27,10 @@ public class AuthenticationController {
 
     private final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
 
-    private final static String REFRESH_TOKEN_PROPERTY = "ote_refreshToken";
 
-    private final static String ACCESS_TOKEN_PROPERTY = "ote_accessToken";
+    private final static String REFRESH_TOKEN_PROPERTY = "hope_refreshToken";
+
+    private final static String ACCESS_TOKEN_PROPERTY = "hope_accessToken";
 
     @Value("${hope.security.refreshTokenExpiration}")
     private long REFRESH_EXPIRATION_TIME;
@@ -52,7 +54,9 @@ public class AuthenticationController {
             AuthenticationResult result = authenticationService.register(newUser);
             LOG.info("Successfully registered new user");
 
-            return getAuthenticationResponse(result);
+            return getAuthenticationResponse(result, newUser.getEmail());
+        } catch (ValidationException e) {
+            return ErrorHandlingUtils.handleBadRequest(LOG,e);
         } catch (Exception e) {
             return ErrorHandlingUtils.handleInternalServerError(LOG, "Failed to register new user", e);
         }
@@ -64,7 +68,7 @@ public class AuthenticationController {
         try {
             AuthenticationResult result = authenticationService.authenticate(request);
             LOG.info("Successfully authenticated user");
-            return getAuthenticationResponse(result);
+            return getAuthenticationResponse(result, request.getEmail());
 
         } catch (BadCredentialsException e) {
             return ErrorHandlingUtils.handleBadRequest(LOG, e);
@@ -79,7 +83,8 @@ public class AuthenticationController {
             if (StringUtils.isBlank(refreshToken))
                 throw new IllegalArgumentException("Refresh token not provided");
             AuthenticationResult result = authenticationService.renewToken(refreshToken);
-            return getAuthenticationResponse(result);
+            String userEmail = authenticationService.getEmailFromToken(refreshToken, TokenType.REFRESH);
+            return getAuthenticationResponse(result, userEmail);
         } catch (IllegalArgumentException e) {
             return removeTokensResponse(e);
         } catch (Exception e) {
@@ -108,6 +113,11 @@ public class AuthenticationController {
 
             Boolean result = authenticationService.isTokenValid(accessToken, TokenType.ACCESS);
 
+            if(result) {
+                String userEmail = authenticationService.getEmailFromToken(accessToken, TokenType.ACCESS);
+                return ResponseEntity.ok(new AuthenticationResponse(true, authenticationService.getUserBasicInfo(userEmail)));
+            }
+
             return ResponseEntity.ok()
                     .body(new AuthenticationResponse(result));
         } catch (Exception e) {
@@ -116,7 +126,7 @@ public class AuthenticationController {
         }
     }
 
-    private ResponseEntity<Object> getAuthenticationResponse(AuthenticationResult result) {
+    private ResponseEntity<Object> getAuthenticationResponse(AuthenticationResult result, String email) {
         ResponseCookie refreshTokenCookie = createCookie(REFRESH_TOKEN_PROPERTY, result.getRefreshToken(), Duration.ofDays(REFRESH_EXPIRATION_TIME));
         ResponseCookie accessTokenCookie = createCookie(ACCESS_TOKEN_PROPERTY, result.getAccessToken(), Duration.ofMinutes(ACCESS_EXPIRATION_TIME));
 
@@ -124,7 +134,7 @@ public class AuthenticationController {
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                 .cacheControl(CacheControl.noCache())
-                .body(new AuthenticationResponse(true));
+                .body(new AuthenticationResponse(true, authenticationService.getUserBasicInfo(email)));
     }
 
     private ResponseEntity<Object> removeTokensResponse(Exception e) {

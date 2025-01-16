@@ -1,9 +1,10 @@
 package com.fullstack.projet.config;
 
-import com.fullstack.projet.models.User;
+import com.fullstack.projet.models.user.User;
 import com.fullstack.projet.services.security.IJwtService;
 import com.fullstack.projet.services.security.TokenType;
 import com.fullstack.projet.services.user.IUserService;
+import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -40,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         Cookie[] cookies = request.getCookies();
         String jwtToken = null;
-        Long userId;
+        String username;
 
         if (cookies != null) {
             for (Cookie cookie : cookies) {
@@ -56,10 +57,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        userId = jwtService.extractId(jwtToken, TokenType.ACCESS);
+        username = jwtService.extractUsername(jwtToken, TokenType.ACCESS);
 
-        if (userId != null && userId > 0  && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Optional<User> user = userService.findById(userId);
+        if (StringUtils.isNotBlank(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            Optional<User> user = userService.findByEmail(username);
             if(user.isPresent()){
                 if (jwtService.tokenIsValid(jwtToken, TokenType.ACCESS)) {
                     UsernamePasswordAuthenticationToken authenticationToken =

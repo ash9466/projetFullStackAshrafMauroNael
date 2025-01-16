@@ -10,5 +10,5 @@ public interface IToolService {
     Tool save(Tool tool);
     void deleteById(Long id);
     Optional<Tool> findById(Long id);
-    List<Tool> searchByDomain(String domain);
+    List<Tool> searchTools(String name, String domain, String description);
 }

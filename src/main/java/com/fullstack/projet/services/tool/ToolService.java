@@ -35,7 +35,7 @@ public class ToolService implements IToolService {
     }
 
     @Override
-    public List<Tool> searchByDomain(String domain) {
-        return toolRepository.findByDomainContaining(domain);
+    public List<Tool> searchTools(String name, String domain, String description) {
+        return toolRepository.searchTools(name, domain, description);
     }
 }

@@ -9,7 +9,7 @@ public interface IJwtService {
 
     String generateRefreshToken(String username);
 
-    Long extractId(String jwtToken, TokenType tokenType);
+    String extractUsername(String jwtToken, TokenType tokenType);
 
     <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver, TokenType tokenType);
 

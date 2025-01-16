@@ -1,6 +1,7 @@
 package com.fullstack.projet.repositories;
 
-import com.fullstack.projet.models.User;
+import com.fullstack.projet.models.user.User;
+import com.fullstack.projet.models.user.UserProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional <User> findByEmail(String email);
+     Optional<User> findByEmail(String email);
+     UserProjection findUserByEmail(String email);
+     boolean existsByEmail(String email);
 }

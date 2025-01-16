@@ -1,10 +1,13 @@
-package com.fullstack.projet.models;
+package com.fullstack.projet.models.user;
 
+import com.fullstack.projet.exceptions.ValidationException;
+import com.fullstack.projet.models.Role;
+import com.fullstack.projet.models.ValidatableObject;
+import io.micrometer.common.util.StringUtils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,12 +15,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 @Entity(name = "user")
-public class User implements UserDetails {
+public class User implements UserDetails, ValidatableObject {
+
+    public final static long MIN_PASSWORD_LENGTH = 8;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,12 +40,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(){
-
-    }
+    public User(){}
 
     public User(String firstName, String lastName, String email, String password, Role role) {
-
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -49,12 +50,18 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public void update(String firstName, String lastName, String email, String password) {
-
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
+    @Override
+    public void validate() {
+        if (StringUtils.isBlank(firstName))
+            throw new ValidationException("First name is mandatory.");
+        if (StringUtils.isBlank(lastName))
+            throw new ValidationException("Last name is mandatory.");
+        if (StringUtils.isBlank(email))
+            throw new ValidationException("Email name is mandatory.");
+        if (StringUtils.isBlank(password) || password.length() < MIN_PASSWORD_LENGTH)
+            throw new ValidationException("Password is mandatory and must contain at least 8 characters.");
+        if(role == null)
+            throw new ValidationException("Role is mandatory.");
     }
 
     @Override

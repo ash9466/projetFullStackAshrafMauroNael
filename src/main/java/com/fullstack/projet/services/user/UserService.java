@@ -1,6 +1,6 @@
 package com.fullstack.projet.services.user;
 
-import com.fullstack.projet.models.User;
+import com.fullstack.projet.models.user.User;
 import com.fullstack.projet.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

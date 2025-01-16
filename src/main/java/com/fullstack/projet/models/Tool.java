@@ -1,6 +1,7 @@
 package com.fullstack.projet.models;
 
 import com.fullstack.projet.exceptions.ValidationException;
+import com.fullstack.projet.models.user.User;
 import jakarta.persistence.*;
 
 @Entity(name = "tool")
@@ -20,9 +21,9 @@ public class Tool {
     @ManyToOne
     private User addedBy;
 
+    public Tool(){}
+
     public Tool(String name, String domain, String description, User addedBy) {
-//        validateName(name);
-//        validateName(domain);
         if (description == null || description.isBlank()) {
             throw new ValidationException("Description cannot be null or empty.");
         }

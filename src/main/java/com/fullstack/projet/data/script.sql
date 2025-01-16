@@ -37,7 +37,7 @@ INSERT INTO user (first_name, last_name, email, password, role) VALUES
 INSERT INTO tool (name, domain, description, added_by_id) VALUES
 ('Spring Boot', 'Backend', 'Framework Java pour construire des applications', 1),
 ('React', 'Frontend', 'Librairie JS pour créer des interfaces dynamiques', 1),
-('MariaDB', 'Database', 'Système de gestion de base de données open source', 2);
+('MariaDB', 'Database', 'Système de gestion de base de données open source', 1);
 
 INSERT INTO feedback (comment, tool_id, user_id) VALUES
 ('Super outil pour le backend', 1, 2),
