@@ -21,6 +21,7 @@ public class Feedback implements ValidatableObject {
     private Tool tool;
 
     @ManyToOne
+    @JoinColumn(name = "creator")
     private User creator;
 
     public Feedback(){}

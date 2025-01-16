@@ -18,11 +18,12 @@ public class Tool implements ValidatableObject {
     private String name;
     private String domain;
     private String link;
-    @Lob
+    @Column(name = "description", columnDefinition = "LONGTEXT")
     private String description;
     @OneToMany(mappedBy = "tool")
     private List<Feedback> feedbacks;
     @ManyToOne
+    @JoinColumn(name = "creator")
     private User creator;
 
     public Tool(){}

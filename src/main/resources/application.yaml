@@ -1,4 +1,7 @@
 spring:
+  sql:
+    init:
+      mode: always
   application:
     name: HOPE
   datasource:
@@ -8,7 +11,11 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    defer-datasource-initialization: true
 
 hope:
   frontEndDomain: ${FRONT_END_DOMAIN:http://localhost:3000}
