@@ -19,7 +19,7 @@ Node.js et npm pour le front-end
 
 Base de données (par exemple MySQL ou PostgreSQL, selon votre configuration)
 
-###Installation
+### Installation
 
 Back-End (Spring Boot)
 
@@ -28,6 +28,7 @@ Clonez le dépôt Git :
 git clone https://github.com/ash9466/projetFullStackAshrafMauroNael.git
 
 Accédez au dossier du projet :
+
   '''bash
   cd projetFullStackAshrafMauroNael
 
