@@ -49,8 +49,8 @@ public class ToolController {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("delete/{id}")
     public void deleteTool(@PathVariable Long id) {
         LOG.info("Deleting tool {}", id);
         toolService.deleteById(id);
